@@ -4,19 +4,20 @@
   Brian Kaminski
   8/01/2023
 
-  This example sets up a MyoWare 2.0 Wireless Shield, and then reads the ENV, RAW, 
-  and  REF data from the attached MyoWare 2.0 Muscle Sensor. The MyoWare 2.0 
-  Wireless Shield (the Peripheral) sends this data to a second BLE Device 
+  This example sets up a MyoWare 2.0 Wireless Shield, and then reads the ENV, RAW,
+  and REF data from the attached MyoWare 2.0 Muscle Sensor. The MyoWare 2.0
+  Wireless Shield (the Peripheral) sends this data to a second BLE Device
   (the Central) over BLE.
 
   This MyoWare 2.0 Wireless Shield, aka the "BLE Peripheral", will read the sensor's
   output on A3-A5 where A3 is ENV, A4 is RAW, and A5 is REF. It will then store
-  them in a single 32-bit variable, and then update that value to the 
-  "bluetooth bulliten board".
+  them in a single 32-bit variable, and then update that value to the
+  "bluetooth bulletin board". When uploading to the MyoWare 2.0 Wireless Shield
+  make sure to select "ESP32 Dev Module" as the board definition.
 
   Note, in BLE, you have services, characteristics and values.
   Read more about it here:
-  
+
   https://www.arduino.cc/reference/en/libraries/arduinoble/
 
   Note, before it begins reading the ADC and updating the data,
@@ -27,12 +28,12 @@
         -These must match the UUIDs in the code on the central device.
     3. advertises itself
 
-  In order for this example to work, you will need a Artemis boad, 
-  and it will need to be programmed with the provided code specific to 
+  In order for this example to work, you will need a ESP32 board,
+  and it will need to be programmed with the provided code specific to
   being a central device, looking for this specific service/characteristic.
 
   Note, both the service and the characteristic get unique UUIDs.
-  
+
   The "BLE Central", will subscribe to the MyoWare 2.0 Wireless
   Shield's charactieristic, read it, and parse it into 4 separate bytes,
   then print the values to the serial terminal.
@@ -59,7 +60,7 @@
 #include <ArduinoBLE.h>
 #include <MyoWare.h>
 
-const String localName = "MyoWareSensor1";  // recommend making this unique for 
+const String localName = "MyoWareSensor1";  // recommend making this unique for
                                             // each Wireless shield (e.g. MyoWareSensor1,
                                             // MyoWareSensor2, ...)
 
@@ -79,7 +80,7 @@ BLEService myoWareService(MyoWareBLE::uuidMyoWareService.c_str());
 // BLE Muscle Sensor Characteristics
 BLEStringCharacteristic sensorCharacteristic(MyoWareBLE::uuidMyoWareCharacteristic.c_str(), BLERead | BLENotify, 128);
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
   while (!Serial);
@@ -95,13 +96,13 @@ void setup()
   myoware.setRAWPin(A4);              // Arduino pin connected to RAW (defult is A4 for Wireless Shield)
   myoware.setREFPin(A5);              // Arduino pin connected to REF (defult is A5 for Wireless Shield)
 
-  pinMode(myoware.getStatusLEDPin(), OUTPUT);  // initialize the built-in LED pin to indicate 
+  pinMode(myoware.getStatusLEDPin(), OUTPUT);  // initialize the built-in LED pin to indicate
                                                // when a central is connected
   digitalWrite(myoware.getStatusLEDPin(), HIGH);
-  
+
   // begin initialization
   bool error = !BLE.begin();
-  if (error) 
+  if (error)
   {
     Serial.println("FAILED - BLE Initialization!");
 
@@ -115,7 +116,7 @@ void setup()
 
   // set initial values for the characteristics
   sensorCharacteristic.writeValue("");
-  
+
   BLE.advertise();
 
   if (debugLogging)
@@ -133,23 +134,23 @@ void setup()
   digitalWrite(myoware.getStatusLEDPin(), LOW);
 }
 
-void loop() 
+void loop()
 {
   // wait for a BLE central
   BLEDevice central = BLE.central();
-  if (central) 
-  {  
+  if (central)
+  {
     if (debugLogging)
     {
       Serial.print("Connected to central: ");
-      Serial.println(central.address());    
+      Serial.println(central.address());
     }
-    
-    digitalWrite(myoware.getStatusLEDPin(), HIGH); // turn on the LED to indicate the 
+
+    digitalWrite(myoware.getStatusLEDPin(), HIGH); // turn on the LED to indicate the
                                                    // connection
-  
-    while (central.connected()) 
-    {      
+
+    while (central.connected())
+    {
       // Read sensor output
       const String strValue = String(myoware.readSensorOutput(outputType));
       if (debugOutput)
@@ -158,14 +159,14 @@ void loop()
       // "post" to "BLE bulletin board"
       sensorCharacteristic.writeValue(strValue);
     }
-    
+
     // when the central disconnects, turn off the LED:
     digitalWrite(myoware.getStatusLEDPin(), LOW);
 
     if (debugLogging)
     {
       Serial.print("Disconnected from central: ");
-      Serial.println(central.address());  
+      Serial.println(central.address());
     }
   }
   else

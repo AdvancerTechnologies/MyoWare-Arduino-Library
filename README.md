@@ -31,5 +31,5 @@ The MyoWare 2.0 ecosystem consists of shields that easily interface with the [My
 This open source code is licensed under the MIT license (see [LICENSE](LICENSE.md)
 for details).
 
-The MyoWare 2.0 Ecosystem is a collaboration between [Advancer Technologies](https://myoware.com) and [Sparkfun Electronics](https://www.sparkfun.com), please support future MyoWare development by purchasing products from
-[Sparkfun Electronics](https://www.sparkfun.com/myoware)!
+The MyoWare 2.0 Ecosystem is a collaboration between [Advancer Technologies](https://myoware.com) and [SparkFun Electronics](https://www.sparkfun.com), please support future MyoWare development by purchasing products from
+[SparkFun Electronics](https://www.sparkfun.com/myoware)!

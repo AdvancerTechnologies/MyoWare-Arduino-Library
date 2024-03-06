@@ -1,7 +1,7 @@
 Advancer Technologies License Information
 ============================
 
-**Advancer Technologies code, firmware, and software is released under the MIT License(http://opensource.org/licenses/MIT).**
+**Advancer Technologies code, firmware, and software is released under the [MIT License](http://opensource.org/licenses/MIT).**
 
 The MIT License (MIT)
 

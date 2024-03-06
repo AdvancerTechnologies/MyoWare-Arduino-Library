@@ -30,7 +30,7 @@
   and print them to the serial terminal.
 
   Hardware:
-  BLE device (e.g. Artemis Redboard) 
+  BLE device (e.g. ESP32) 
   USB from BLE device to Computer.
 
   ** For consistent BT connection follow these steps:
